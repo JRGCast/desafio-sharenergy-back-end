@@ -13,5 +13,3 @@ app.get('/', (_req, res) => {
 
 app.get('/clients', clientController.getAllC);
 app.get('/company', companyController.getAllU);
-
-app.listen(PORT, () => console.log(`Escutando porta ${PORT}`));
