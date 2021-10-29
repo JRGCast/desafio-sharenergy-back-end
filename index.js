@@ -16,3 +16,4 @@ app.get('/company', companyController.getAllU);
 
 
 app.listen(PORT, () => console.log(`Escutando porta ${PORT}`));
+// fixed mongoatlas access network
