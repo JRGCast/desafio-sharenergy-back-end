@@ -1,5 +1,7 @@
 const companiesModel = require('../model/CompaniesModel');
 
-const getAllCompanies = async () => companiesModel.getAllTheCompanies();
+const getAllCompanyData = async () => companiesModel.getAllTheCompanyData();
 
-module.exports = { getAllCompanies };
+const getAllCIntervals = async () => companiesModel.getAllTheCompanyIntervals();
+
+module.exports = { getAllCompanyData, getAllCIntervals };
