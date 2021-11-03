@@ -1,9 +1,10 @@
 const cors = require('cors');
 const express = require('express');
 
-const clientController = require('./src/controllers/ClientsController');
+// const clientController = require('./src/controllers/ClientsController');
 
 const companyRouter = require('./routers/CompanyRouter');
+const clientsRouter = require('./routers/ClientsRouter');
 const app = express();
 
 app.use(cors());
@@ -17,8 +18,9 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/company', companyRouter);
+app.use('/clients', clientsRouter);
 
-app.get('/clients', clientController.getAllC);
+// app.get('/clients', clientController.getAllC);
 
 
 app.listen(PORT, () => console.log(`Escutando porta ${PORT}`));
