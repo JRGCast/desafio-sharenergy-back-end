@@ -1,59 +1,32 @@
 const companiesServices = require('../services/CompaniesServices');
-const jsonUsina = require('../database/dadosUsina.json');
+const testFunc = async (_req, res) => {
+  const allCData = await companiesServices.getAllCompanyData();
+  const modifiedData = Object.assign(allCData);
+  for (let i = 0; i < modifiedData.length; i++) {
+    const strangeTime = modifiedData[i].tempo_h;
+    const intTime = Math.floor(strangeTime);
+    const decimalTime = strangeTime - intTime;
+    const convertedTime = Math.round(60 * decimalTime);
+    const fullTimeString = `${intTime}h${convertedTime > 9 ? convertedTime : `0${convertedTime}`}min`;
+    modifiedData[i].tempo_humano = fullTimeString;
+  }
+  return res.status(200).json({ modifiedData });
+};
 
 const getAllUsinData = async (_req, res) => {
   const companyData = await companiesServices.getAllCompanyData();
   return res.status(200).json({ companyData });
 };
 
-const testModifyData = async (_req, res) => {
-  const intervalsData = await companiesServices.getAllCIntervals();
-  return res.status(200).json({ intervalsData });
-};
 
 const getAllUsinIntervals = async (_req, res) => {
   const intervalsList = await companiesServices.getAllCIntervals();
   return res.status(200).json(intervalsList);
 };
 
-module.exports = { getAllUsinData, getAllUsinIntervals, testModifyData };
+const getAllUDataNHTime = async (_req, res) => {
+  const allCDataNHT = await companiesServices.getCDataWithHTime();
+  return res.status(200).json(allCDataNHT);
+};
 
-
-
-// let intervals = [];
-
-// for (let i = 1; i < usin.length; i++) {
-//   let subtraction = usin[i].tempo_h - usin[i - 1].tempo_h;
-//   intervals.push(subtraction);
-// }
-
-// console.log('length: ', intervals.length);
-
-// const averageWithReduceDirect = intervals.reduce((item1, item2, _index, array) => {
-//   return item1 + item2 / array.length;
-// }, 0);
-
-// console.log('media com reduce direto: ', averageWithReduceDirect);
-
-// let totalIntervalsSum = 0;
-
-// for (let i = 0; i < intervals.length; i++) {
-//   totalIntervalsSum += intervals[i];
-// }
-
-// console.log('media com for loop para somar e divisão pelo length: ', totalIntervalsSum / intervals.length);
-
-// const avgReduce = intervals.reduce((acc, item, _index, array) => {
-//   return acc += item;
-// }, 0);
-
-// console.log('reduce para soma e divisão separado: ', avgReduce / intervals.length);
-
-// let finalMedium = [0.08388888888888885, 0.08388888888888892, 0.08388888888888892];
-// let finalSum = 0;
-
-// for (let i = 0; i < finalMedium.length; i++) {
-//   finalSum += finalMedium[i];
-// }
-
-// console.log(finalSum / 3);
+module.exports = { getAllUsinData, getAllUsinIntervals, getAllUDataNHTime, testFunc };
