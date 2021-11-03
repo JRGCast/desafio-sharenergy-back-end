@@ -5,9 +5,9 @@ const getAllC = async (_req, res) => {
   return res.status(200).json({ dados_clientes: clientsList });
 };
 
-const getClientByName = async (req, res) => {
-  const { name } = req.body;
-  const foundByName = await clientsServices.getSpecificClient(name);
+const getClientByNameOrNumber = async (req, res) => {
+  const { name, number } = req.body;
+  const foundByName = await clientsServices.getSpecificClient(name, number);
   return res.status(200).json({ client: foundByName });
 };
 
@@ -18,4 +18,4 @@ const addNewClient = async (req, res) => {
   return res.status(200).json({ message: 'cliente inserido', client: clientInsertion });
 };
 
-module.exports = { getAllC, getClientByName, addNewClient };
+module.exports = { getAllC, getClientByNameOrNumber, addNewClient };

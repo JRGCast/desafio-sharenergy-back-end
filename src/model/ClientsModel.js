@@ -11,10 +11,15 @@ const getAllTheClients = async () => {
   }
 };
 
-const getSpecificClient = async (name) => {
+const getSpecificClient = async (name, number) => {
   try {
     const db = await connection();
-    const findClient = db.collection('Clients').findOne({ nomeCliente: name });
+    const findClient = await db.collection('Clients').findOne({
+      $or: [
+        { nomeCliente: name },
+        { numeroCliente: number }
+      ]
+    });
     return findClient;
   } catch (error) {
     console.log(error);
