@@ -6,22 +6,17 @@ const getAllUsinData = async (_req, res) => {
   return res.status(200).json({ companyData });
 };
 
-const testInterval = async (_req, res) => {
+const testModifyData = async (_req, res) => {
   const intervalsData = await companiesServices.getAllCIntervals();
   return res.status(200).json({ intervalsData });
 };
 
 const getAllUsinIntervals = async (_req, res) => {
   const intervalsList = await companiesServices.getAllCIntervals();
-  let intervalsDiff = [];
-  for (let i = 1; i < intervalsList.length; i++) {
-    let getIntervalsDiff = intervalsList[i].tempo_h - intervalsList[i - 1].tempo_h;
-    intervalsDiff.push(getIntervalsDiff);
-  }
-  return res.status(200).json({ intervals_difference: intervalsDiff });
+  return res.status(200).json(intervalsList);
 };
 
-module.exports = { getAllUsinData, getAllUsinIntervals, testInterval };
+module.exports = { getAllUsinData, getAllUsinIntervals, testModifyData };
 
 
 

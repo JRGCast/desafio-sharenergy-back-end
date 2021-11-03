@@ -3,6 +3,6 @@ const companyRouter = require('express').Router();
 
 companyRouter.get('/', companyController.getAllUsinData);
 companyRouter.get('/intervals', companyController.getAllUsinIntervals);
-// companyRouter.get('/tintervals', companyController.testInterval);
+companyRouter.get('/test', companyController.testModifyData);
 
 module.exports = companyRouter;
