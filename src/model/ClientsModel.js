@@ -1,6 +1,25 @@
 const { ObjectId } = require('mongodb');
 const connection = require('./connection');
 
+const rewriteCollection = async () => {
+  /* WARNING: THIS IS TOTALLY AWFUL SOLUTION, TOTALLY NOT SCALABLE AND FLAWED, 
+     but right now MongoAtlas autoincrement is getting too many strange errors,
+     and for a small collection, I think it's... barely ok.
+  */
+  try {
+    const db = await connection();
+    const totalClients = await db.collection('Clients').find().toArray();
+    for (let i = 0; i < totalClients.length; i++) {
+      totalClients[i].numeroCliente = i + 1;
+    }
+    db.collection('Clients').deleteMany({});
+    db.collection('Clients').insertMany(totalClients);
+  } catch (error) {
+    console.log(error);
+    return `Erro: ${error}`;
+  }
+};
+
 const getAllTheClients = async () => {
   try {
     const db = await connection();
@@ -33,6 +52,7 @@ const insertTheNewClient = async (clientData) => {
   try {
     const db = await connection();
     const newClient = await db.collection('Clients').insertOne(clientData);
+    rewriteCollection();
     return newClient;
   } catch (error) {
     console.log(error);
@@ -50,6 +70,7 @@ const deleteTheClient = async ({ id, nomeCliente, numeroCliente }) => {
         { _id: ObjectId(id) }
       ]
     }, { projection: { _id: 0, nomeCliente: 1, numeroCliente: 1 } });
+    rewriteCollection();
     return findClient.value;
   } catch (error) {
     console.log(error);
@@ -57,4 +78,22 @@ const deleteTheClient = async ({ id, nomeCliente, numeroCliente }) => {
   }
 };
 
-module.exports = { getAllTheClients, getSpecificClient, insertTheNewClient, deleteTheClient };
+const deleteMany = async ({ id, nomeCliente, numeroCliente }) => {
+  try {
+    const db = await connection();
+    const findClient = await db.collection('Clients').deleteMany({
+      $or: [
+        { nomeCliente },
+        { numeroCliente },
+        { _id: ObjectId(id) }
+      ]
+    }, { projection: { _id: 0, nomeCliente: 1, numeroCliente: 1 } });
+    rewriteCollection();
+    return findClient
+  } catch (error) {
+    console.log(error);
+    return `Erro: ${error}`;
+  }
+};
+
+module.exports = { getAllTheClients, getSpecificClient, insertTheNewClient, deleteTheClient, deleteMany };

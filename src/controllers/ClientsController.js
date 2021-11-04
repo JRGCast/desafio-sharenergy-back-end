@@ -1,4 +1,5 @@
 const clientsServices = require('../services/ClientsServices');
+const clientsModel = require('../model/ClientsModel');
 
 const getAllC = async (_req, res) => {
   const clientsList = await clientsServices.getAllClients();
@@ -22,10 +23,15 @@ const addNewClient = async (req, res) => {
 const deleteClient = async (req, res) => {
   const { clientData } = req.body;
   const clientDeletion = await clientsServices.deleteOneClient(clientData);
-  const response = clientDeletion === 'Não encontrado' ?
-    res.status(200).json({ message: 'cliente não encontrado' }) :
-    res.status(200).json({ message: 'cliente deletado', client: clientDeletion });
+  res.status(200).json({ message: clientDeletion });
   return response;
 };
 
-module.exports = { getAllC, getClientByNameOrNumber, addNewClient, deleteClient };
+// Testing func
+const deleteManyC = async (req, res) => {
+  const { clientData } = req.body;
+  const clientDeletion = await clientsModel.deleteMany(clientData);
+  return res.status(200).json({ message: `${clientDeletion.deletedCount} cliente(s) deletado(s)` });
+};
+
+module.exports = { getAllC, getClientByNameOrNumber, addNewClient, deleteClient, deleteManyC };
