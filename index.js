@@ -20,7 +20,13 @@ app.get('/', (_req, res) => {
 app.use('/company', companyRouter);
 app.use('/clients', clientsRouter);
 
-// app.get('/clients', clientController.getAllC);
+app.use((error, req, res, next) => {
+  console.log('Final middleware error');
+  if (error.status && error.message) {
+    res.status(error.status).json({ message: { error_type: error.type, error_message: error.message } });
+  }
+  res.status(500).json({ message: error.message || 'erro desconhecido ao servidor' });
+});
 
 
 app.listen(PORT, () => console.log(`Escutando porta ${PORT}`));
