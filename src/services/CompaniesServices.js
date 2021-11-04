@@ -16,7 +16,7 @@ const getAllCIntervals = async () => {
 };
 
 const getCDataWithHTime = async () => {
-  const allCData = await companiesServices.getAllCompanyData();
+  const allCData = await getAllCompanyData();
   const modifiedData = Object.assign(allCData);
   for (let i = 0; i < modifiedData.length; i++) {
     const strangeTime = modifiedData[i].tempo_h;
@@ -27,7 +27,7 @@ const getCDataWithHTime = async () => {
     modifiedData[i].tempo_humano = fullTimeString;
     
   }
-  return res.status(200).json({ modifiedData });
+  return ({ modifiedData });
 };
 
 

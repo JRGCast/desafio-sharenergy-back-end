@@ -18,7 +18,6 @@ const getAllUsinData = async (_req, res) => {
   return res.status(200).json({ companyData });
 };
 
-
 const getAllUsinIntervals = async (_req, res) => {
   const intervalsList = await companiesServices.getAllCIntervals();
   return res.status(200).json(intervalsList);
