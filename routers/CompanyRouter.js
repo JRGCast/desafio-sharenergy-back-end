@@ -4,7 +4,7 @@ const companyRouter = require('express').Router();
 
 companyRouter.get('/', companyController.getAllUsinData);
 companyRouter.get('/intervals', companyController.getAllUsinIntervals);
-companyRouter.get('/datareadabletime', companyController.getAllUDataNHTime);
+companyRouter.get('/datareadabletime', companyController.getAllUDataNHTime); //test new push
 
 
 // Testing/dev routes
