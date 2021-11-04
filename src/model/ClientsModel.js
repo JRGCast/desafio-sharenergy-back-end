@@ -32,7 +32,11 @@ const getSpecificClient = async (id, name, number) => {
 const insertTheNewClient = async (clientData) => {
   try {
     const db = await connection();
-    const newClient = db.collection('Clients').insertOne(clientData);
+    const totalClients = await db.collection('Clients').find().toArray();
+    const newClient = await db.collection('Clients').insertOne(clientData);
+    for (let i = 1; i < totalClients.length; i++) {
+      db.collection('Clients').updateMany({ numeroCliente: { $eq: i } }, { $set: { numeroCliente: i } });
+    }
     return newClient;
   } catch (error) {
     console.log(error);

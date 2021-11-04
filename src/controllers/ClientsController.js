@@ -12,10 +12,11 @@ const getClientByNameOrNumber = async (req, res) => {
 };
 
 const addNewClient = async (req, res) => {
-  const { clientData: { nomeCliente, numeroCliente } } = req.body;
-  const clientInsertion = await clientsServices.insertNewClient({ nomeCliente, numeroCliente });
+  const { clientData } = req.body;
+  const { nomeCliente, numeroCliente, usinas } = clientData;
+  const clientInsertion = await clientsServices.insertNewClient(clientData);
   console.log(clientInsertion);
-  return res.sendStatus(200).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente } });
+  return res.sendStatus(200).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente, usinas } });
 };
 
 const deleteClient = async (req, res) => {
