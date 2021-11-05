@@ -1,7 +1,5 @@
 const { MongoClient } = require('mongodb');
 require('dotenv').config();
-const clients = require('../database/dadosClientes.json');
-const companies = require('../database/dadosUsina.json');
 
 const MONGO_DB_NAME = process.env.MONGO_DB_NAME;
 const MONGO_DB_URI = process.env.MONGO_DB_URI;
@@ -23,7 +21,5 @@ const connection = async () => {
     process.exit(1);
   }
 };
-
-
 
 module.exports = connection;
