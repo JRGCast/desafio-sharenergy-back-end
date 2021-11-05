@@ -15,10 +15,15 @@ const getAllCIntervals = async () => {
     return acc + currInterval / array.length;
   }, 0);
 
-  const averageKwReduceDirect = allKw.reduce((acc, currKW, _index, array) => {
-    return acc + currKW / array.length;
+  const averageKwReduceDirect = allKw.reduce((acc, currKW) => {
+    return acc + currKW;
   }, 0);
-  return { intervals_diff: intervalsDiff, intervals_avg: averageIntReduceDirect, kw_avg: averageKwReduceDirect };
+  return {
+    intervals_diff: intervalsDiff,
+    intervals_avg: averageIntReduceDirect,
+    kw_avg: averageKwReduceDirect / allKw.length,
+    kw_total: averageKwReduceDirect,
+  };
 };
 
 const getCDataWithHTime = async () => {
