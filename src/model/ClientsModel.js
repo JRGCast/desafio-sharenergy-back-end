@@ -60,6 +60,30 @@ const insertTheNewClient = async (clientData) => {
   }
 };
 
+const updateTheClient = async (clientData, updateData) => {
+  const { nomeCliente } = clientData;
+  const { novoNome, novasUsinas } = updateData;
+  const findQuery = {
+    nomeCliente,
+  };
+  const updateQuery = {
+    "$set": {
+      nomeCliente: novoNome,
+      usinas: novasUsinas
+    }
+  };
+  const options = { returnDocument: 'after' };
+  try {
+    const db = await connection();
+    const newClient = await db.collection('Clients').findOneAndUpdate(findQuery, updateQuery, options);
+    rewriteCollection();
+    return newClient;
+  } catch (error) {
+    console.log(error);
+    return `Erro: ${error}`;
+  }
+};
+
 const deleteTheClient = async ({ id, nomeCliente, numeroCliente }) => {
   try {
     const db = await connection();
@@ -78,6 +102,7 @@ const deleteTheClient = async ({ id, nomeCliente, numeroCliente }) => {
   }
 };
 
+// Test Function
 const deleteMany = async ({ id, nomeCliente, numeroCliente }) => {
   try {
     const db = await connection();
@@ -89,11 +114,18 @@ const deleteMany = async ({ id, nomeCliente, numeroCliente }) => {
       ]
     }, { projection: { _id: 0, nomeCliente: 1, numeroCliente: 1 } });
     rewriteCollection();
-    return findClient
+    return findClient;
   } catch (error) {
     console.log(error);
     return `Erro: ${error}`;
   }
 };
 
-module.exports = { getAllTheClients, getSpecificClient, insertTheNewClient, deleteTheClient, deleteMany };
+module.exports = {
+  getAllTheClients,
+  getSpecificClient,
+  insertTheNewClient,
+  updateTheClient,
+  deleteTheClient,
+  deleteMany
+};

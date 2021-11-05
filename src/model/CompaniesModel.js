@@ -8,7 +8,7 @@ const getAllTheCompanyData = async () => {
 
 const getAllTheCompanyIntervals = async () => {
   const db = await connection();
-  const Intervals = db.collection('Companies').find({}).project({ tempo_h: 1, _id: 0 }).toArray();
+  const Intervals = db.collection('Companies').find({}).project({ tempo_h: 1, potencia_kW: 1, _id: 0 }).toArray();
   return Intervals;
 };
 

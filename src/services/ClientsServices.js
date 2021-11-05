@@ -9,25 +9,20 @@ const getSpecificClient = async (givenId, givenName = '', givenNumber = '') => {
 
 const insertNewClient = async (clientData) => clientsModel.insertTheNewClient(clientData);
 
+const updateOneClient = async (clientData, updateData) => {
+  const updateOrNot = await clientsModel.updateTheClient(clientData, updateData);
+  return updateOrNot === null ? 'Não encontrado' : updateOrNot;
+};
+
 const deleteOneClient = async ({ id, nomeCliente = '', numeroCliente = '' }) => {
   const deletedOrNot = await clientsModel.deleteTheClient({ id, nomeCliente, numeroCliente });
   return deletedOrNot === null ? 'Não encontrado' : deletedOrNot;
 };
 
-module.exports = { getAllClients, getSpecificClient, insertNewClient, deleteOneClient };
-
-// {
-//   "_id": "6182b733b0051f8619bd9d83",
-//   "clientName": "Jeeeeeeeeeeeeeeoe",
-//   "age": 36
-// },
-// {
-//   "_id": "6182f873bda33439491346c9",
-//   "nomeCliente": "Maria Coelho",
-//   "numeroCliente": 3
-// },
-// {
-//   "_id": "6182f8af0c88ccb0e8531e3e",
-//   "nomeCliente": "Maria Coelho",
-//   "numeroCliente": 3
-// }
+module.exports = {
+  getAllClients,
+  getSpecificClient,
+  insertNewClient,
+  updateOneClient,
+  deleteOneClient
+};

@@ -5,14 +5,20 @@ const getAllCompanyData = async () => companiesModel.getAllTheCompanyData();
 const getAllCIntervals = async () => {
   const intervalsList = await companiesModel.getAllTheCompanyIntervals();
   let intervalsDiff = [];
+  let allKw = [];
   for (let i = 1; i < intervalsList.length; i++) {
     let getIntervalsDiff = intervalsList[i].tempo_h - intervalsList[i - 1].tempo_h;
     intervalsDiff.push(getIntervalsDiff);
+    allKw.push(intervalsList[i].potencia_kW);
   }
-  const averageWithReduceDirect = intervalsDiff.reduce((acc, currInterval, _index, array) => {
+  const averageIntReduceDirect = intervalsDiff.reduce((acc, currInterval, _index, array) => {
     return acc + currInterval / array.length;
   }, 0);
-  return { intervals_diff: intervalsDiff, intervals_avg: averageWithReduceDirect };
+
+  const averageKwReduceDirect = allKw.reduce((acc, currKW, _index, array) => {
+    return acc + currKW / array.length;
+  }, 0);
+  return { intervals_diff: intervalsDiff, intervals_avg: averageIntReduceDirect, kw_avg: averageKwReduceDirect };
 };
 
 const getCDataWithHTime = async () => {

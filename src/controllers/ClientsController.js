@@ -3,13 +3,14 @@ const clientsModel = require('../model/ClientsModel');
 
 const getAllC = async (_req, res) => {
   const clientsList = await clientsServices.getAllClients();
-  return res.status(200).json({ dados_clientes: clientsList });
+  return res.status(200).json({ todos_clientes: clientsList });
 };
 
-const getClientByNameOrNumber = async (req, res) => {
-  const { name, number } = req.body;
-  const foundByName = await clientsServices.getSpecificClient(name, number);
-  return res.status(200).json({ client: foundByName });
+const getThisClient = async (req, res) => {
+  const { clientData } = req.body;
+  const { id, nomeCliente, numeroCliente } = clientData;
+  const foundByName = await clientsServices.getSpecificClient(id, nomeCliente, numeroCliente);
+  return res.status(200).json({ cliente: foundByName });
 };
 
 const addNewClient = async (req, res) => {
@@ -17,7 +18,8 @@ const addNewClient = async (req, res) => {
   const { nomeCliente, numeroCliente, usinas } = clientData;
   const clientInsertion = await clientsServices.insertNewClient(clientData);
   console.log(clientInsertion);
-  return res.status(200).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente, usinas } });
+  console.log(clientData);
+  return res.status(201).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente, usinas } });
 };
 
 const deleteClient = async (req, res) => {
@@ -27,6 +29,12 @@ const deleteClient = async (req, res) => {
   return response;
 };
 
+const updateClient = async (req, res) => {
+  const { clientData, updateData } = req.body;
+  const clientUpdate = await clientsServices.updateOneClient(clientData, updateData);
+  res.status(200).json({ message: clientUpdate.value });
+};
+
 // Testing func
 const deleteManyC = async (req, res) => {
   const { clientData } = req.body;
@@ -34,4 +42,4 @@ const deleteManyC = async (req, res) => {
   return res.status(200).json({ message: `${clientDeletion.deletedCount} cliente(s) deletado(s)` });
 };
 
-module.exports = { getAllC, getClientByNameOrNumber, addNewClient, deleteClient, deleteManyC };
+module.exports = { getAllC, getThisClient, addNewClient, updateClient, deleteClient, deleteManyC };

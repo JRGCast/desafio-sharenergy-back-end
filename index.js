@@ -20,7 +20,7 @@ app.get('/', (_req, res) => {
 app.use('/company', companyRouter);
 app.use('/clients', clientsRouter);
 
-app.use((error, req, res, next) => {
+app.use((error, _req, res, _next) => {
   console.log('Final middleware error');
   if (error.status && error.message) {
     res.status(error.status).json({ message: { error_type: error.type, error_message: error.message } });
