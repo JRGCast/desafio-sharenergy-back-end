@@ -23,9 +23,9 @@ const getCDataWithHTime = async () => {
     const intTime = Math.floor(strangeTime);
     const decimalTime = strangeTime - intTime;
     const convertedTime = Math.round(60 * decimalTime);
-    const fullTimeString = `${intTime}h${convertedTime > 9 ? convertedTime : `0${convertedTime}`}min`;
+    const fullTimeString = `${intTime > 9 ? intTime : `0${intTime}`}h${convertedTime > 9 ? convertedTime : `0${convertedTime}`}min`;
     modifiedData[i].tempo_humano = fullTimeString;
-    
+
   }
   return ({ modifiedData });
 };
