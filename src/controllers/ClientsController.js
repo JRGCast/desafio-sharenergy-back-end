@@ -18,7 +18,6 @@ const addNewClient = async (req, res) => {
   const { nomeCliente, numeroCliente, usinas } = clientData;
   const clientInsertion = await clientsServices.insertNewClient(clientData);
   console.log(clientInsertion);
-  console.log(clientData);
   return res.status(201).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente, usinas } });
 };
 
@@ -31,7 +30,6 @@ const deleteClient = async (req, res) => {
 const updateClient = async (req, res) => {
   const { clientData, updateData } = req.body;
   const clientUpdate = await clientsServices.updateOneClient(clientData, updateData);
-  console.log(updateData);
   return res.status(200).json({ message: 'client updated', client: clientUpdate.value });
 };
 
