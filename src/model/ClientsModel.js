@@ -66,12 +66,22 @@ const updateTheClient = async (clientData, updateData) => {
   const findQuery = {
     nomeCliente,
   };
-  const updateQuery = {
-    "$set": {
-      nomeCliente: novoNome,
-      usinas: novasUsinas
-    }
-  };
+  let updateQuery;
+  if (!novasUsinas) {
+    updateQuery = {
+      "$set": {
+        nomeCliente: novoNome,
+        usinas: novasUsinas
+      }
+    };
+  } else {
+    updateQuery = {
+      "$set": {
+        nomeCliente: novoNome,
+      }
+    };
+  }
+
   const options = { returnDocument: 'after' };
   try {
     const db = await connection();
