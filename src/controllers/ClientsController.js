@@ -21,17 +21,18 @@ const addNewClient = async (req, res) => {
   return res.status(201).json({ message: 'novo cliente inserido', new_client: { nomeCliente, numeroCliente, usinas } });
 };
 
+const updateClient = async (req, res) => {
+  const { clientData, updateData } = req.body;
+  const clientUpdate = await clientsServices.updateOneClient(clientData, updateData);
+  return res.status(200).json({ message: 'client updated', client: clientUpdate.value });
+};
+
 const deleteClient = async (req, res) => {
   const { clientData } = req.body;
   const clientDeletion = await clientsServices.deleteOneClient(clientData);
   return res.status(200).json({ message: 'client deleted', client: clientDeletion });
 };
 
-const updateClient = async (req, res) => {
-  const { clientData, updateData } = req.body;
-  const clientUpdate = await clientsServices.updateOneClient(clientData, updateData);
-  return res.status(200).json({ message: 'client updated', client: clientUpdate.value });
-};
 
 // Testing func
 const deleteManyC = async (req, res) => {

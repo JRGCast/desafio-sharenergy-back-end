@@ -66,23 +66,18 @@ const updateTheClient = async (clientData, updateData) => {
   const findQuery = {
     nomeCliente,
   };
-  let updateQuery;
-  if (!novasUsinas) {
-    updateQuery = {
-      "$set": {
-        nomeCliente: novoNome,
-        usinas: novasUsinas
-      }
-    };
-  } else {
-    updateQuery = {
-      "$set": {
-        nomeCliente: novoNome,
-      }
-    };
-  }
+  const updateQuery = !novasUsinas ? {
+    "$set": {
+      nomeCliente: novoNome,
+    }
+  } : {
+    "$set": {
+      nomeCliente: novoNome,
+      usinas: novasUsinas
+    }
+  };
 
-  const options = { returnDocument: 'after' };
+  const options = { returnDocument: 'after', omitUndefined: true };
   try {
     const db = await connection();
     const newClient = await db.collection('Clients').findOneAndUpdate(findQuery, updateQuery, options);
