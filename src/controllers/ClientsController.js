@@ -24,6 +24,7 @@ const addNewClient = async (req, res) => {
 const updateClient = async (req, res) => {
   const { clientData, updateData } = req.body;
   const clientUpdate = await clientsServices.updateOneClient(clientData, updateData);
+  console.log('controller', updateData)
   return res.status(200).json({ message: 'client updated', client: clientUpdate.value });
 };
 

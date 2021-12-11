@@ -63,6 +63,7 @@ const insertTheNewClient = async (clientData) => {
 const updateTheClient = async (clientData, updateData) => {
   const { nomeCliente } = clientData;
   const { novoNome, novasUsinas } = updateData;
+  console.log('model updateData', updateData);
   const findQuery = {
     nomeCliente,
   };
@@ -82,6 +83,7 @@ const updateTheClient = async (clientData, updateData) => {
     const db = await connection();
     const newClient = await db.collection('Clients').findOneAndUpdate(findQuery, updateQuery, options);
     rewriteCollection();
+    console.log('model resposta', newClient);
     return newClient;
   } catch (error) {
     console.log(error);

@@ -11,6 +11,7 @@ const insertNewClient = async (clientData) => clientsModel.insertTheNewClient(cl
 
 const updateOneClient = async (clientData, updateData) => {
   const updateOrNot = await clientsModel.updateTheClient(clientData, updateData);
+  console.log('services', updateData)
   return updateOrNot === null ? 'Não encontrado' : updateOrNot;
 };
 
